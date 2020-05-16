@@ -1,33 +1,32 @@
 const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../config/connection");
 const User = require("./User");
+const Post = require("./Post");
 
-class Post extends Model { }
-Post.init(
+class Comment extends Model { }
+
+Comment.init(
 	{
-		title: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			validate: {
-				len: [1],
-			},
-		},
 		body: {
 			type: DataTypes.TEXT,
 			allowNull: false,
 			len: [1],
 		},
 	},
-	{ sequelize, modelName: "Post" }
+	{ sequelize, modelName: "Comment" }
 );
 
 // Add foreign key for Users
-Post.belongsTo(User, {
+Comment.belongsTo(User, {
 	foreignKey: {
 		allowNull: false,
 	},
 });
+Comment.belongsTo(Post, {
+	foreignKey: {
+		allowNull: false,
+	},
+});
+Comment.sync();
 
-Post.sync();
-
-module.exports = Post;
+module.exports = Comment;

@@ -4,19 +4,22 @@
   "description": "Find and upload content and share it with people  around your town, county, state, and country.",
   "main": "server.js",
   "dependencies": {
-    "eslint": "^4.19.1",
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "express-handlebars": "^4.0.4",
     "express-session": "^1.17.1",
     "mysql2": "^2.1.0",
     "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "sequelize": "^5.21.9"
   },
   "devDependencies": {
-    "mocha": "^7.1.2"
+    "eslint": "^4.19.1",
+    "jquery": "^3.5.1",
+    "moment": "^2.25.3"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {
