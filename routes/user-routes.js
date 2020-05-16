@@ -1,12 +1,12 @@
 // Requiring our models and passport as we've configured it
-const User = require('../models/User');
+const User = require("../models/User");
 const passport = require("../config/passport");
 
-module.exports = function(app) {
+module.exports = function (app) {
 	// Login
 	app.post("/users/login", passport.authenticate("local"), function (req, res) {
 		// Redirect to homepage
-		res.redirect('/users/info');
+		res.redirect("/");
 	});
 
 	// Registration
@@ -34,7 +34,7 @@ module.exports = function(app) {
 		if (!req.user) {
 			// If not logged in
 			res.json({
-				message: 'Unauthorized.'
+				message: "Unauthorized."
 			});
 		} else {
 			// Logged in
