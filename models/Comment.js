@@ -12,6 +12,16 @@ Comment.init(
 			allowNull: false,
 			len: [1],
 		},
+		upvotes: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			defaultValue: 0
+		},
+		downvotes: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			defaultValue: 0
+		}
 	},
 	{ sequelize, modelName: "Comment" }
 );

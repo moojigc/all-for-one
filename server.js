@@ -32,6 +32,8 @@ app
 // Requiring our routes
 require("./routes/handlebar-routes")(app);
 require("./routes/user-routes")(app);
+require("./routes/content-routes")(app);
+require("./routes/comment-routes")(app);
 
 async function main() {
 	// Syncing our database and logging a message to the user upon success
