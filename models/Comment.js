@@ -1,32 +1,39 @@
-const { DataTypes, Model } = require("sequelize");
-const sequelize = require("../config/connection");
-const User = require("./User");
-const Post = require("./Post");
+module.exports = function(sequelize, DataTypes) {
+	const Comment = sequelize.define("Comment",
+		{
+			body: {
+				type: DataTypes.TEXT,
+				allowNull: false,
+				len: [1, 10000]
+			},
+			upvotes: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0
+			},
+			downvotes: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0
+			}
+		}
+	);
 
-class Comment extends Model { }
+	Comment.associate = models => {
+		// Add foreign key for Users
+		Comment.belongsTo(models.User, {
+			foreignKey: {
+				allowNull: false
+			}
+		});
+		Comment.belongsTo(models.Post, {
+			foreignKey: {
+				allowNull: false
+			}
+		});
+		models.Post.hasMany(Comment);
+		models.User.hasMany(Comment);
+	};
 
-Comment.init(
-	{
-		body: {
-			type: DataTypes.TEXT,
-			allowNull: false,
-			len: [1],
-		},
-	},
-	{ sequelize, modelName: "Comment" }
-);
-
-// Add foreign key for Users
-Comment.belongsTo(User, {
-	foreignKey: {
-		allowNull: false,
-	},
-});
-Comment.belongsTo(Post, {
-	foreignKey: {
-		allowNull: false,
-	},
-});
-Comment.sync();
-
-module.exports = Comment;
+	return Comment;
+};

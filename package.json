@@ -5,9 +5,13 @@
   "main": "server.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "connect-session-sequelize": "^6.1.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-handlebars": "^4.0.4",
     "express-session": "^1.17.1",
+    "moment": "^2.25.3",
     "mysql2": "^2.1.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
@@ -15,11 +19,11 @@
   },
   "devDependencies": {
     "eslint": "^4.19.1",
-    "jquery": "^3.5.1",
-    "moment": "^2.25.3"
+    "jest": "^26.0.1",
+    "jquery": "^3.5.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js"
   },
   "repository": {

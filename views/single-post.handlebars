@@ -1,0 +1,38 @@
+<div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+    {{#with post}}
+    <img src="{{User.avatar}}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+    <span class="w3-right w3-opacity">{{updatedAt}}</span>
+    <h4>{{User.username}}</h4><br>
+    <hr class="w3-clear">
+    <a href="{{data.url}}">
+        <p>{{data.title}}</p>
+    </a>
+    <div class="w3-row-padding" style="margin:0 -16px">
+        {{data.body}}
+    </div>
+    <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>
+         Like</button>
+    <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>
+         {{data.commentCount}} Comment(s)</button>
+    {{#each Comments}}
+    <div>
+        <h3>{{dataValues.username}}</h3>
+        <p>{{dataValues.body}}</p>
+        <div>
+            {{#each dataValues.Subcomments}}
+            <div style="margin-left: 2rem;">
+                <h5>{{dataValues.username}}</h5>
+                <p>{{dataValues.body}}</p>
+                {{#each dataValues.Subcomments}}
+                <div style="margin-left: 2rem;">
+                    <h5>{{dataValues.username}}</h5>
+                    <p>{{dataValues.body}}</p>
+                </div>
+                {{/each}}
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    {{/each}}
+    {{/with}}
+</div>

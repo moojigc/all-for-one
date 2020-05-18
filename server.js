@@ -1,20 +1,17 @@
+require("dotenv").config();
 // Requiring necessary npm packages
 const express = require("express"),
+	exphbs = require("express-handlebars"),
+	flash = require("connect-flash"),
+	passport = require("./config/passport"),
 	session = require("express-session"),
-	exphbs = require('express-handlebars'),
-	// Requiring passport as we've configured it
-	passport = require("./config/passport");
+	SequelizeStore = require("connect-session-sequelize")(session.Store),
+	db = require("./models"),
+	PORT = process.env.PORT;
 
-// Setting up port and requiring models for syncing
-const PORT = process.env.PORT || 4000,
-	sequelize = require('./config/connection');
-require('./models/Post');
-require('./models/Comment');
-
-// Creating express app and configuring middleware needed for authentication
+// Creating express app and configuring middleware needed for authentication and sessions
 const app = express();
-app
-	.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
 	.use(express.json())
 	.use(express.static("public"))
 	.engine("handlebars", exphbs({ defaultLayout: "main" }))
@@ -22,28 +19,46 @@ app
 	// Sessions
 	.use(
 		session({
-			secret: process.env.SESS_SECRET ? process.env.SESS_SECRET : "himitsu",
+			cookie: { maxAge: 6000 * 60 * 24 * 7 },
+			secret: process.env.SESS_SECRET,
 			resave: true,
-			saveUninitialized: true,
+			saveUninitialized: false,
+			store: new SequelizeStore({ db: db.sequelize })
 		})
 	)
 	.use(passport.initialize())
-	.use(passport.session());
+	.use(passport.session())
+	.use(flash())
+	.use(function (req, res, next) {
+		res.locals.successMsg = req.flash("successMsg");
+		res.locals.errorMsg = req.flash("errorMsg");
+		next();
+	});
 // Requiring our routes
 require("./routes/handlebar-routes")(app);
 require("./routes/user-routes")(app);
+require("./routes/content-routes")(app);
+require("./routes/comment-routes")(app);
+require("./routes/subcomment-routes")(app);
 
 async function main() {
+	let errors;
 	// Syncing our database and logging a message to the user upon success
 	try {
-		await sequelize.sync();
-		app.listen(PORT, err => {
+		await db.sequelize.sync();
+		app.listen(PORT, (err) => {
+			let consoleMsg = process.env.HOST !== "localhost" ? "https://all-for-one-msg.herokuapp.com" : `http://localhost:${PORT}`;
 			if (err) throw err;
-			else console.log("Listening on " + process.env.PORT ? `http://localhost:${PORT}` : "https://all-for-one-msg.herokuapp.com");
+			else console.log(`Listening at ${consoleMsg}`);
 		});
+		errors = null;
 	} catch (error) {
 		console.trace(error);
+		errors = error;
 	}
+	return errors;
 }
+// Used for testing
+module.exports = main;
 
 main();
