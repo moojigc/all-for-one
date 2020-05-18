@@ -9,5 +9,4 @@ cache:
 services: 
   - mysql
 before_install:
-  - mysql -u root --password=""
-  - mysql -e 'CREATE DATABASE all_for_one;'
+  - mysql -u root --password=""; CREATE DATABASE all_for_one; USE all_for_one;
