@@ -1,12 +1,5 @@
-const { DataTypes, Model } = require("sequelize");
-const sequelize = require("../config/connection");
-const Comment = require("./Comment");
-const User = require("./User");
-
-class Subcomment extends Model {}
-
-Subcomment.init(
-	{
+module.exports = function (sequelize, DataTypes) {
+	const Subcomment = sequelize.define("Subcomment", {
 		body: {
 			type: DataTypes.TEXT,
 			allowNull: false,
@@ -22,37 +15,35 @@ Subcomment.init(
 			allowNull: false,
 			defaultValue: 0
 		}
-	},
-	{ sequelize, modelName: "Subcomment" }
-);
+	});
+	Subcomment.associate = (models) => {
+		// Add foreign key for Users
+		Subcomment.belongsTo(models.User, {
+			foreignKey: {
+				allowNull: false
+			},
+			onDelete: "CASCADE"
+		});
+		// Foreign key for top-level comments
+		Subcomment.belongsTo(models.Comment, {
+			foreignKey: {
+				allowNull: true,
+				defaultValue: null
+			},
+			onDelete: "CASCADE"
+		});
+		// Foreign key for other subcomments
+		Subcomment.belongsTo(Subcomment, {
+			foreignKey: {
+				allowNull: true,
+				defaultValue: null
+			},
+			onDelete: "CASCADE"
+		});
+		models.Comment.hasMany(Subcomment);
+		Subcomment.hasMany(Subcomment);
+		models.User.hasMany(Subcomment);
+	};
 
-// Add foreign key for Users
-Subcomment.belongsTo(User, {
-	foreignKey: {
-		allowNull: false
-	},
-	onDelete: "CASCADE"
-});
-// Foreign key for top-level comments
-Subcomment.belongsTo(Comment, {
-	foreignKey: {
-		allowNull: true,
-		defaultValue: null
-	},
-	onDelete: "CASCADE"
-});
-// Foreign key for other subcomments
-Subcomment.belongsTo(Subcomment, {
-	foreignKey: {
-		allowNull: true,
-		defaultValue: null
-	},
-	onDelete: "CASCADE"
-});
-Comment.hasMany(Subcomment);
-Subcomment.hasMany(Subcomment);
-User.hasMany(Subcomment);
-
-Subcomment.sync();
-
-module.exports = Subcomment;
+	return Subcomment;
+};

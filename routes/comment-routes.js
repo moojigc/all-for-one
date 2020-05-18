@@ -1,7 +1,4 @@
-const Comment = require("../models/Comment");
-const Subcomment = require("../models/Subcomment");
-
-module.exports = function (app) {
+module.exports = function (app, Comment, Subcomment) {
 	// Route for POSTing a comment to a specific Post
 	app.post("/api/post/:PostId/comments", async (req, res) => {
 		let response = await Comment.create({

@@ -1,11 +1,11 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const User = require("../models/User");
+const db = require("../models");
 const bcrypt = require('bcryptjs');
 
 passport.use(
 	new LocalStrategy({ usernameField: "username" }, async (username, password, done) => {
-		let user = await User.findOne({
+		let user = await db.User.findOne({
 			where: {
 				username: username
 			}

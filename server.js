@@ -1,15 +1,15 @@
+require("dotenv").config();
 // Requiring necessary npm packages
 const express = require("express"),
-	session = require("express-session"),
 	exphbs = require("express-handlebars"),
 	flash = require("connect-flash"),
-	passport = require("./config/passport");
+	passport = require("./config/passport"),
+	session = require("express-session"),
+	SequelizeStore = require("connect-session-sequelize")(session.Store),
+	db = require("./models"),
+	PORT = process.env.PORT;
 
-// Setting up port and requiring models for syncing
-const PORT = process.env.PORT || 4000,
-	sequelize = require("./config/connection");
-
-// Creating express app and configuring middleware needed for authentication
+// Creating express app and configuring middleware needed for authentication and sessions
 const app = express();
 app.use(express.urlencoded({ extended: true }))
 	.use(express.json())
@@ -19,9 +19,11 @@ app.use(express.urlencoded({ extended: true }))
 	// Sessions
 	.use(
 		session({
-			secret: process.env.SESS_SECRET ? process.env.SESS_SECRET : "himitsu",
+			cookie: { maxAge: 6000 * 60 * 24 * 7 },
+			secret: process.env.SESS_SECRET,
 			resave: true,
-			saveUninitialized: true
+			saveUninitialized: false,
+			store: new SequelizeStore({ db: db.sequelize })
 		})
 	)
 	.use(passport.initialize())
@@ -40,17 +42,23 @@ require("./routes/comment-routes")(app);
 require("./routes/subcomment-routes")(app);
 
 async function main() {
+	let errors;
 	// Syncing our database and logging a message to the user upon success
 	try {
-		await sequelize.sync();
+		await db.sequelize.sync();
 		app.listen(PORT, (err) => {
-			let consoleMsg = process.env.PORT ? "https://all-for-one-msg.herokuapp.com" : `http://localhost:${PORT}`;
+			let consoleMsg = process.env.HOST !== "localhost" ? "https://all-for-one-msg.herokuapp.com" : `http://localhost:${PORT}`;
 			if (err) throw err;
 			else console.log(`Listening at ${consoleMsg}`);
 		});
+		errors = null;
 	} catch (error) {
 		console.trace(error);
+		errors = error;
 	}
+	return errors;
 }
+// Used for testing
+module.exports = main;
 
 main();
