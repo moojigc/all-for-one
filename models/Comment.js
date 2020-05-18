@@ -3,14 +3,14 @@ const sequelize = require("../config/connection");
 const User = require("./User");
 const Post = require("./Post");
 
-class Comment extends Model { }
+class Comment extends Model {}
 
 Comment.init(
 	{
 		body: {
 			type: DataTypes.TEXT,
 			allowNull: false,
-			len: [1],
+			len: [1, 10000]
 		},
 		upvotes: {
 			type: DataTypes.INTEGER,
@@ -29,14 +29,17 @@ Comment.init(
 // Add foreign key for Users
 Comment.belongsTo(User, {
 	foreignKey: {
-		allowNull: false,
-	},
+		allowNull: false
+	}
 });
 Comment.belongsTo(Post, {
 	foreignKey: {
-		allowNull: false,
-	},
+		allowNull: false
+	}
 });
+Post.hasMany(Comment);
+User.hasMany(Comment);
+
 Comment.sync();
 
 module.exports = Comment;

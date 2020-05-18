@@ -15,7 +15,7 @@ Post.init(
 		body: {
 			type: DataTypes.TEXT,
 			allowNull: false,
-			len: [1],
+			len: [1, 40000],
 		},
 		url: {
 			type: DataTypes.TEXT,
@@ -27,7 +27,7 @@ Post.init(
 		upvotes: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
-			defaultValue: 0
+			defaultValue: 1
 		},
 		downvotes: {
 			type: DataTypes.INTEGER,
@@ -38,8 +38,8 @@ Post.init(
 		lat: {
 			type: DataTypes.DECIMAL(12, 9),
 			allowNull: false,
-			// Default value is going to be Stamford, CT
-			defaultValue: 41.0534,
+			// Default value is going to be Null Island 😎
+			defaultValue: 0.0,
 			validate: {
 				isDecimal: true
 			}
@@ -47,7 +47,7 @@ Post.init(
 		long: {
 			type: DataTypes.DECIMAL(12, 9),
 			allowNull: false,
-			defaultValue: 73.5387,
+			defaultValue: 0.0,
 			validate: {
 				isDecimal: true
 			}
@@ -61,7 +61,9 @@ Post.belongsTo(User, {
 	foreignKey: {
 		allowNull: false,
 	},
+	onDelete: "cascade"
 });
+User.hasMany(Post);
 
 Post.sync();
 

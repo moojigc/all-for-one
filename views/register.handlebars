@@ -1,31 +1,43 @@
-<div class="row mt-5">
-    <div class="col-md-6 m-auto">
-        <div class="card card-body">
-            <h1 class="text-center mb-3">
+<div>
+    <div>
+        <div>
+            <h1>
                 <i class="fas fa-user-plus"></i> Register
             </h1>
             <form action="/users/register" method="POST">
-                <div class="form-group">
+                <div>
                     <label for="name">Username</label>
-                    <input type="text" id="name" name="username" class="form-control" placeholder="Enter Name"
+                    <input type="text" id="name" name="username" placeholder="Enter Name"
                         value="">
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-control"
+                    <input type="password" id="password" name="password"
                         placeholder="Create Password" value=""/>
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="password2">Confirm Password</label>
-                    <input type="password" id="password2" name="password2" class="form-control"
+                    <input type="password" id="password2" name="password2"
                         placeholder="Confirm Password"
                         value=""/>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">
+                <div>
+                    <label for="">Birthdate</label>
+                    <input type="text" name="birthdate"
+                        placeholder="YYYY-MM-DD"
+                        value=""/>
+                </div>
+                <div>
+                    <label for="">User Avatar</label>
+                    <input type="text" name="avatar"
+                        placeholder="Enter avatar URL"
+                        value=""/>
+                </div>
+                <button type="submit">
                     Register
                 </button>
             </form>
-            <p class="lead mt-4">Have An Account? <a href="/users/login">Login</a></p>
+            <p>Have An Account? <a href="/users/login">Login</a></p>
         </div>
     </div>
 </div>

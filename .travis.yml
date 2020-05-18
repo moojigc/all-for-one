@@ -6,3 +6,8 @@ branches:
 cache:
   directories:
     - node_modules
+services: 
+  - mysql
+before_install:
+  - mysql -u root --password=""
+  - mysql -e 'CREATE DATABASE all_for_one;'
