@@ -1,8 +1,7 @@
-const Post = require("../models/Post");
 // const isAuthenticated = require("../config/middleware/isAuthenticated");
 // const moment = require("moment");
 
-module.exports = function (app) {
+module.exports = function (app, Post) {
 	// POST route for uploading a post (POST a post)
 	app.post("/api/posts/", async (req, res) => {
 		let response = await Post.create({

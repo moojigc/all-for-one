@@ -1,6 +1,7 @@
 config.json
 apikey.json
 apikey.js
+.env
 # Logs
 logs
 *.log

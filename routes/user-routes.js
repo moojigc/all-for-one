@@ -1,8 +1,7 @@
 // Requiring our models and passport as we've configured it
-const User = require("../models/User");
 const passport = require("../config/passport");
 
-module.exports = function (app) {
+module.exports = function (app, User) {
 	// Login
 	app.post("/users/login", passport.authenticate("local"), function (req, res) {
 		// Redirect to homepage
