@@ -13,8 +13,14 @@ module.exports = function (app) {
 	app.post("/users/register", async (req, res) => {
 		try {
 			await User.create({
+				firstName: req.body.firstName,
+				lastName: req.body.lastName,
 				username: req.body.username,
-				password: req.body.password
+				password: req.body.password,
+				birthdate: req.body.birthdate,
+				avatar: req.body.avatar,
+				lat: req.body.lat,
+				long: req.body.long
 			});
 			res.redirect(307, "/users/login");
 		} catch (error) {
@@ -26,7 +32,8 @@ module.exports = function (app) {
 	// Route for logging user out
 	app.get("/logout", (req, res) => {
 		req.logout();
-		res.redirect("/");
+		req.flash("successMsg", "You are logged out.");
+		res.redirect("/users/login");
 	});
 
 	// Route for getting some data about our user to be used client side
