@@ -16,7 +16,7 @@ See the deployed app at [Heroku.](https://all-for-one-msg.herokuapp.com/)
 
 ISC License
 
-        Copyright (c) 2020, Moojig Battsogt
+        Copyright (c) 2020 Moojig Battsogt, Sebastian Williams, Gurprem Bhullar
         
         Permission to use, copy, modify, and/or distribute this software for any
         purpose with or without fee is hereby granted, provided that the above
