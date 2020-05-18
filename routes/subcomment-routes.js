@@ -1,4 +1,5 @@
-module.exports = function (app, Comment, Subcomment) {
+module.exports = function (app) {
+	const { Comment, Subcomment } = require('../models');
 	// Route for POSTing a reply (subcomment) to a parent comment
 	app.post("/api/comment/:CommentId/subcomments", async (req, res) => {
 		try {

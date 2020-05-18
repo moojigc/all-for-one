@@ -1,4 +1,5 @@
-module.exports = function (app, Comment, Subcomment) {
+module.exports = function (app) {
+	const { Comment, Subcomment } = require('../models');
 	// Route for POSTing a comment to a specific Post
 	app.post("/api/post/:PostId/comments", async (req, res) => {
 		let response = await Comment.create({
@@ -16,9 +17,11 @@ module.exports = function (app, Comment, Subcomment) {
 			where: {
 				PostId: req.params.PostId
 			},
-			include: [{
-				model: Subcomment
-			}]
+			include: [
+				{
+					model: Subcomment
+				}
+			]
 		});
 		res.json(response).end();
 	});
@@ -28,21 +31,26 @@ module.exports = function (app, Comment, Subcomment) {
 			where: {
 				id: req.params.id
 			},
-			include: [{
-				model: Subcomment
-			}]
+			include: [
+				{
+					model: Subcomment
+				}
+			]
 		});
 		res.json(response).end();
 	});
 	// Route for PUT request for a specific comment
 	app.put("/api/comment/:id", async (req, res) => {
-		let response = await Comment.update({
-			body: req.body.body,
-		}, {
-			where: {
-				id: parseInt(req.params.id)
+		let response = await Comment.update(
+			{
+				body: req.body.body
+			},
+			{
+				where: {
+					id: parseInt(req.params.id)
+				}
 			}
-		});
+		);
 		res.json(response).end();
 	});
 	// Route for GETting a specific user's comments
