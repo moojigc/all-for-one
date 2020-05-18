@@ -1,7 +1,8 @@
 const isAuthenticated = require("../config/middleware/isAuthenticated"),
-	moment = require("moment");
+	moment = require("moment"),
+	{ User, Post, Comment, Subcomment } = require('../models');
 
-module.exports = function (app, User, Post, Comment, Subcomment) {
+module.exports = function (app) {
 	// Displays the homepage. Checks if the user is authenticated and displays slightly different page if logged in
 	app.get("/", isAuthenticated, async (req, res) => {
 		try {
