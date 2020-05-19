@@ -13,56 +13,79 @@
 	<title>All For One Register</title>
 </head>
 
-
-<body>
+<body class="w3-theme-l5">
+    <div class="w3-row-padding">
+      <div class="w3-col m12 center">
+        <div class="w3-card w3-round w3-white">
+          <div class="w3-container w3-padding">
+            <p contenteditable="true" class="w3-border w3-padding">Username</p>
+            <p contenteditable="true" class="w3-border w3-padding">Password</p>
+            <button type="button" class="w3-button w3-theme">Login</button>
+            <button type="button" class="w3-button w3-theme">Create Account</button>
+          </div>
+        </div>
+      </div>
+    </div> 
+</body>
     
+<body class="w3-theme-l5">
 
-<div>
-    <div>
-        <div>
-            <h1>
-                <i class="fas fa-user-plus"></i> Register
-            </h1>
-            <form>
-                <div>
-                    <label for="name">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter Name"
-                        value="">
-                </div>
-                <div>
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password"
-                        placeholder="Create Password" value=""/>
-                </div>
-                <div>
-                    <label for="password2">Confirm Password</label>
-                    <input type="password" id="password2" name="password2"
-                        placeholder="Confirm Password"
-                        value=""/>
-                </div>
-                <div>
-                    <label for="">Birthdate</label>
-                    <input type="text" id="birthdate" name="birthdate"
-                        placeholder="MM"
-                        value=""/>
-                    <input type="text" id="birthdate" name="birthdate"
-                        placeholder="DD"
-                        value=""/>
-                    <input type="text" id="birthdate" name="birthdate"
-                        placeholder="YYYY"
-                        value=""/>
-                </div>
-                <div>
-                    <label for="">User Avatar</label>
-                    <input type="text" id="avatar" name="avatar"
-                        placeholder="Enter avatar URL"
-                        value=""/>
-                </div>
-                <button type="submit">
-                    Register
-                </button>
-            </form>
-            <p>Have An Account? <a href="/users/login">Login</a></p>
+
+<div class="w3-row-padding">
+    <div class="w3-col m12 center">
+        <div class="w3-card w3-round w3-white">
+            <div class="w3-container w3-padding">
+                <h1>
+                    <i class="fas fa-user-plus"></i> Register
+                </h1>
+                <form>
+                    <div class="grid">
+                        <label for="">Name</label>
+                        <input class="w3-border w3-padding" type="text" id="first_name" name="first_name"
+                            placeholder="First"
+                            value=""/>
+                        <input class="w3-border w3-padding" type="text" id="last_name" name="last_name"
+                            placeholder="Last"
+                            value=""/>
+                    </div>
+                    <div class="grid">
+                        <label for="name">Username</label>
+                        <input class="w3-border w3-padding" type="text" id="username" name="username" placeholder="Enter Name"
+                            value="">
+                    </div>
+                    <div class="grid">
+                        <label for="password">Password</label>
+                        <input class="w3-border w3-padding" type="password" id="password" name="password"
+                            placeholder="Create Password" value=""/>
+                    </div>
+                    <div class="grid">
+                        <label for="password2">Confirm Password</label>
+                        <input class="w3-border w3-padding" type="password" id="password2" name="password2"
+                            placeholder="Confirm Password"
+                            value=""/>
+                    </div>
+                    <div class="grid">
+                        <label for="">Birthdate</label>
+                        <input class="w3-border w3-padding" type="text" id="birthdate" name="birthdate"
+                            placeholder="MM"
+                            value=""/>
+                        <input class="w3-border w3-padding" type="text" id="birthdate" name="birthdate"
+                            placeholder="DD"
+                            value=""/>
+                        <input class="w3-border w3-padding" type="text" id="birthdate" name="birthdate"
+                            placeholder="YYYY"
+                            value=""/>
+                    </div>
+                    <div class="grid">
+                        <label for="">User Avatar</label>
+                        <input class="w3-border w3-padding" type="text" id="avatar" name="avatar"
+                            placeholder="Enter avatar URL"
+                            value=""/>
+                    </div>
+                    <button type="button" class="w3-button w3-theme">Register</button>
+                </form>
+                <p>Have An Account? <a href="/users/login">Login</a></p>
+            </div>
         </div>
     </div>
 </div>
