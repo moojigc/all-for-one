@@ -21,4 +21,13 @@
 .w3-hover-text-theme:hover {color:#556B2F !important}
 .w3-hover-border-theme:hover {border-color:#556B2F !important}
 
+
 .tree_image {height: 1.5rem;}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
