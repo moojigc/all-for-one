@@ -1,15 +1,29 @@
-const fetch = require("node-fetch");
+$("input[type=file]").on("change", async function () {
+	var $files = $(this).get(0).files;
 
-async function fetchAvatarUrl(userId) {
-	const response = await fetch("https://myurl/${userId}");
-	const user = await response.json();
+	if ($files.length) {
+		if ($files[0].size > $(this).data("max-size") * 1024) {
+			console.log("File is too big");
+			return false;
+		}
 
-	return await Promise.all(
-		user.cats.map(async function (catId) {
-			const response = await fetch("https://imgur.com/image/${imageId}");
-			const catData = await response.json();
-			return catData.imageUrl;
-		})
-	);
-}
-const result = fetchimages(123);
+		console.log("Upload");
+
+		var settings = {
+			type: "POST",
+			url: apiUrl,
+			headers: {
+				Authorization: clientId + apiKey,
+				Accept: "application/json"
+			},
+			mimeType: "multipart/form-data"
+		};
+
+		var formData = new FormData();
+		formData.append("image", $files[0]);
+		settings.data = formData;
+
+		const res = await $.ajax(settings);
+		console.log(res);
+	}
+});
