@@ -4,7 +4,7 @@ const express = require("express"),
 	exphbs = require('express-handlebars'),
 	// Requiring passport as we've configured it
 	passport = require("./config/passport");
-
+const path = require("path");
 // Setting up port and requiring models for syncing
 const PORT = process.env.PORT || 4000,
 	sequelize = require('./config/connection');
@@ -32,6 +32,16 @@ app
 // Requiring our routes
 require("./routes/handlebar-routes")(app);
 require("./routes/user-routes")(app);
+
+app.get("/test", function (req, res) {
+	res.sendFile(path.join(__dirname, ".public/test.html"));
+  });
+  
+  app.post("/api/user", function (req, res) {
+	console.log("THIS ROUTE GOT HIT");
+	console.log(req.body);
+	res.send("success");
+  });
 
 async function main() {
 	// Syncing our database and logging a message to the user upon success
