@@ -11,23 +11,27 @@ const express = require("express"),
 
 // Creating express app and configuring middleware needed for authentication and sessions
 const app = express();
-app.use(express.urlencoded({ extended: true }))
+app.use(express.static("public"))
+	.use(express.urlencoded({ extended: true }))
 	.use(express.json())
-	.use(express.static("public"))
 	.engine("handlebars", exphbs({ defaultLayout: "main" }))
 	.set("view engine", "handlebars")
 	// Sessions
 	.use(
 		session({
+			// Set cookies to expire after 1 week
 			cookie: { maxAge: 6000 * 60 * 24 * 7 },
+			// Use .env var for session secret
 			secret: process.env.SESS_SECRET,
 			resave: true,
 			saveUninitialized: false,
+			// Use connect-session-sequelize to store session data in our existing database
 			store: new SequelizeStore({ db: db.sequelize })
 		})
 	)
 	.use(passport.initialize())
 	.use(passport.session())
+	// Tell express to use flash messages
 	.use(flash())
 	.use(function (req, res, next) {
 		res.locals.successMsg = req.flash("successMsg");
@@ -41,7 +45,9 @@ require("./routes/content-routes")(app);
 require("./routes/comment-routes")(app);
 require("./routes/subcomment-routes")(app);
 
+// This function starts the server
 async function main() {
+	// Track errors for testing
 	let errors;
 	// Syncing our database and logging a message to the user upon success
 	try {

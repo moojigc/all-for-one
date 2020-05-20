@@ -9,22 +9,32 @@ module.exports = function (app) {
 	});
 
 	// Registration
-	app.post("/users/register", async (req, res) => {
-		try {
-			await User.create({
-				firstName: req.body.firstName,
-				lastName: req.body.lastName,
-				username: req.body.username,
-				password: req.body.password,
-				birthdate: req.body.birthdate,
-				avatar: req.body.avatar,
-				lat: req.body.lat,
-				long: req.body.long
-			});
-			res.redirect(307, "/users/login");
-		} catch (error) {
-			console.log(error);
-			res.status(401).json(error);
+	app.post("/api/users", async (req, res) => {
+		if (req.body.password !== req.body.password2) {
+			req.flash("errorMsg", "Passwords must match!");
+			res.json({ redirectURL: "/users/register" }).end();
+		} else if (!req.body.username) {
+			req.flash("errorMsg", "Username is required!");
+			res.json({ redirectURL: "/users/register" }).end();
+		} else {
+			try {
+				// Need the ternary operators bc Sequelize and MySQL interpret empty strings, undefined, and null differently
+				await User.create({
+					firstName: req.body.firstName ? req.body.firstName : null,
+					lastName: req.body.lastName ? req.body.lastName : null,
+					username: req.body.username,
+					password: req.body.password,
+					birthdate: req.body.birthdate ? req.body.birthdate : undefined,
+					avatar: req.body.avatar ? req.body.avatar : undefined,
+					lat: req.body.lat ? req.body.lat : undefined,
+					long: req.body.long ? req.body.long : undefined
+				});
+				req.flash("successMsg", "Successfully created account. Now, please login.")
+				res.json({ redirectURL: "/users/login" });
+			} catch (error) {
+				console.log(error);
+				res.json({ redirectURL: "/server_error" }).end();
+			}
 		}
 	});
 
