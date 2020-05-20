@@ -9,17 +9,21 @@
     <link rel="stylesheet" href="./assets/css/allForOne.css">
     <script src="https://kit.fontawesome.com/d50f4ca58c.js" crossorigin="anonymous"></script>
     <link rel="icon" href="./assets/tree-silhouette.ico" type="image/x-icon"/>
-    <title>All For One</title>
+    <title>All For One Login</title>
 </head>
 <body class="w3-theme-l5">
-    <!-- Middle Column -->
-    
         <div class="w3-row-padding">
-          <div class="w3-col m12 center">
+          <div class="w3-col m8 center">
             <div class="w3-card w3-round w3-white">
               <div class="w3-container w3-padding">
-                <p contenteditable="true" class="w3-border w3-padding">Username</p>
-                <p contenteditable="true" class="w3-border w3-padding">Password</p>
+                <div class= "grid_username">
+                    <input class="w3-border w3-padding" type="text" id="username" name="username" placeholder="Username"
+                        value="">
+                </div>
+                <div class= "grid_username">
+                    <input class="w3-border w3-padding" type="password" id="password" name="password"
+                        placeholder="Password" value=""/>
+                </div>
                 <button type="button" class="w3-button w3-theme">Login</button>
                 <button type="button" class="w3-button w3-theme">Create Account</button>
               </div>

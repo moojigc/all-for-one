@@ -24,6 +24,20 @@
 
 .tree_image {height: 1.5rem;}
 
+.grid {
+    display: grid;
+    grid-template-columns: 10% 30% 20% 10%;
+}
+.grid input {
+    margin: 10px;
+}
+.grid_username {
+    display: grid;
+    grid-template-columns: 100%;
+}
+.grid_username input {
+    margin: 10px;
+}
 .center {
     margin: 0;
     position: absolute;
@@ -31,3 +45,18 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+@media screen and (max-width: 780px) {
+    .grid {
+        grid-template-columns: repeat(auto-fill, 100%);
+    }
+}
+
+
+:root {
+    --main-bg-color: #556B2F;
+    --secondary-bg-color: #BDB76B;
+    --main-bttn-color: #808000;
+    --secondary-bttn-color: #6B8E23;
+    --main-txt-color: #000000;
+}
