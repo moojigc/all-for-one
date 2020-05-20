@@ -23,12 +23,18 @@ module.exports = function (sequelize, DataTypes) {
 			upvotes: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
-				defaultValue: 1
+				defaultValue: 1,
+				validate: {
+					min: 0
+				}
 			},
 			downvotes: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
-				defaultValue: 0
+				defaultValue: 0,
+				validate: {
+					min: 0
+				}
 			},
 			// The app's whole idea is to be based on location, so we need latitude and longitute
 			lat: {
