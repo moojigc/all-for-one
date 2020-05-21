@@ -64,6 +64,10 @@
     transform: translate(-50%, -50%);
   }
 
+  textarea {
+    resize: none;
+  }
+
 @media screen and (max-width: 780px) {
     .grid {
         grid-template-columns: repeat(auto-fill, 100%);
