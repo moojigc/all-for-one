@@ -44,7 +44,24 @@
                         <input class="w3-border w3-padding input-control" type="text" id="avatar" name="avatar"
                             placeholder="Enter avatar URL" value="" />
                     </div>
+                    <div class="grid">
+                        <label for="">Location? (Country required)</label>
+                        <div class="input-control input-row">
+                            <input class="w3-border w3-padding" type="text" id="avatar" name="avatar"
+                                placeholder="City" value="" />
+                            <input class="w3-border w3-padding" type="text" id="avatar" name="avatar"
+                                placeholder="State/Province (enter N/A if not applicable)" value="" />
+                            <input class="w3-border w3-padding" type="text" id="avatar" name="avatar"
+                                placeholder="Country" value="" />
+                        </div>
+                    </div>
                     <button type="button" class="register w3-button w3-theme">Register</button>
+                    {{#if errorMsg}}
+                    <p>{{errorMsg}}</p>
+                    {{/if}}
+                    {{#if successMsg}}
+                    <p>{{successMsg}}</p>
+                    {{/if}}
                 </form>
                 <p>Have An Account? <a href="/users/login">Login</a></p>
             </div>

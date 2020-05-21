@@ -1,7 +1,7 @@
 const isAuthenticated = require("../config/middleware/isAuthenticated"),
 	moment = require("moment"),
-	{ User, Post, Comment, Subcomment } = require("../models"),
-	serverError = (res) => res.json({ message: "Internal server error.", status: 500 }).end();
+	{ User, Post, Comment, Subcomment, Vote } = require("../models"),
+	serverError = (res) => res.status(500).json({ message: "Internal server error.", status: 500 }).end();
 
 module.exports = function (app) {
 	// Displays the homepage. Checks if the user is authenticated and displays slightly different page if logged in
@@ -10,18 +10,29 @@ module.exports = function (app) {
 			// Find most recent 25 posts
 			let posts = await Post.findAll({
 				limit: 25,
-				order: [["updatedAt", "DESC"]],
+				order: [["upvotes", "DESC"]],
 				include: [
 					{
 						model: User
 					},
 					{
 						model: Comment
+					},
+					{
+						model: Vote,
+						where: {
+							UserId: req.user
+						},
+						required: false
 					}
 				]
 				// Map them to exclude the details we don't need, and format nicely for front-end
 			}).map(async (post) => {
 				let url;
+				let noVote;
+				let upvote;
+				let downvote;
+				let lastVote = post.Votes[0] ? post.Votes[0].dataValues.lastVoteWas : "none";
 				if (!post.url) {
 					url = `/post/${post.id}`;
 				} else {
@@ -39,9 +50,13 @@ module.exports = function (app) {
 					commentCount: post.Comments.length,
 					lat: post.lat,
 					long: post.long,
-					score: parseInt(post.upvotes) - parseInt(post.downvotes)
+					score: parseInt(post.upvotes) - parseInt(post.downvotes),
+					noVote: lastVote === "none" ? lastVote : undefined,
+					downvote: lastVote === "downvote" ? lastVote : undefined,
+					upvote: lastVote === "upvote" ? lastVote : undefined
 				};
 			});
+			console.log(posts);
 			// Check for logged in user
 			if (!req.user) {
 				// Send a guest user with filler data
@@ -159,6 +174,7 @@ module.exports = function (app) {
 					})
 				).dataValues;
 				delete user.password;
+				console.log(user);
 				res.render("new-post", { user: user });
 			} catch (error) {
 				console.log(error);

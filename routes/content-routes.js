@@ -5,7 +5,7 @@ const serverError = (res) => res.json({ message: "Internal server error.", statu
 module.exports = function (app) {
 	const { Post, Vote } = require("../models");
 	// POST route for uploading a post (POST a post)
-	app.post("/api/posts/", async (req, res) => {
+	app.post("/api/posts", async (req, res) => {
 		let response = await Post.create({
 			title: req.body.title,
 			body: req.body.body,
@@ -14,7 +14,8 @@ module.exports = function (app) {
 			downvotes: req.body.downvotes,
 			UserId: req.body.UserId,
 			lat: req.body.lat,
-			long: req.body.long
+			long: req.body.long,
+			UserId: req.user
 		});
 		res.json(response).end();
 	});
@@ -28,11 +29,11 @@ module.exports = function (app) {
 		res.json(response).end();
 	});
 	// GET route for all posts
-	app.get("/api/posts/", async (req, res) => {
+	app.get("/api/posts", async (req, res) => {
 		let response = await Post.findAll({});
 		res.json(response).end();
 	});
-	// PUT route for updating posts (body)
+	// PUT route for updating posts
 	app.put("/api/post/:id/:action", async (req, res) => {
 		try {
 			console.log(req.url);

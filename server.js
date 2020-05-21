@@ -9,7 +9,7 @@ const express = require("express"),
 	db = require("./models"),
 	PORT = process.env.PORT;
 
-// Creating express app and configuring middleware needed for authentication and sessions
+// Create instance of express and configuring middleware needed for authentication and sessions
 const app = express();
 app.use(express.static("public"))
 	.use(express.urlencoded({ extended: true }))
@@ -47,8 +47,6 @@ require("./routes/subcomment-routes")(app);
 
 // This function starts the server
 async function main() {
-	// Track errors for testing
-	let errors;
 	// Syncing our database and logging a message to the user upon success
 	try {
 		await db.sequelize.sync();
@@ -57,12 +55,11 @@ async function main() {
 			if (err) throw err;
 			else console.log(`Listening at ${consoleMsg}`);
 		});
-		errors = null;
+		return null;
 	} catch (error) {
 		console.trace(error);
-		errors = error;
+		return errors;
 	}
-	return errors;
 }
 // Used for testing
 module.exports = main;
