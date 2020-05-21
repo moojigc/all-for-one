@@ -86,12 +86,30 @@
                 <h4>{{username}}</h4><br>
                 <hr class="w3-clear">
                 <p>{{body}}</p>
+                {{#if noVote}}
                 <button data-id="{{id}}" type="button" class="upvote w3-button w3-theme-d1 w3-margin-bottom"><i
                         class="fas fa-arrow-circle-up"></i>  Upvote 
                 </button>
                 <code class="score">{{score}}</code>
                 <button data-id="{{id}}" type="button" class="downvote w3-button w3-theme-d2 w3-margin-bottom"><i
                         class="fas fa-arrow-circle-down"></i>  Downvote </button>
+                {{/if}}
+                {{#if upvote}}
+                <button style="background-color: orange !important;" data-id="{{id}}" type="button" class="upvote w3-button w3-theme-d1 w3-margin-bottom"><i
+                        class="fas fa-arrow-circle-up"></i>  Upvote 
+                </button>
+                <code class="score">{{score}}</code>
+                <button data-id="{{id}}" type="button" class="downvote w3-button w3-theme-d2 w3-margin-bottom"><i
+                        class="fas fa-arrow-circle-down"></i>  Downvote </button>
+                {{/if}}
+                {{#if downvote}}
+                <button data-id="{{id}}" type="button" class="upvote w3-button w3-theme-d1 w3-margin-bottom"><i
+                        class="fas fa-arrow-circle-up"></i>  Upvote 
+                </button>
+                <code class="score">{{score}}</code>
+                <button style="background-color: orange !important;" data-id="{{id}}" type="button" class="downvote w3-button w3-theme-d2 w3-margin-bottom"><i
+                        class="fas fa-arrow-circle-down"></i>  Downvote </button>
+                {{/if}}
             </div>
             {{/each}}
 
