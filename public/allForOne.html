@@ -16,7 +16,7 @@
 <body>
 	<!-- Navbar -->
 	<div class="w3-top">
-		<div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+		<div class="w3-bar w3-theme-d1 w3-left-align w3-large">
 			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2"
 				href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
 			<a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><img class="tree_image"
@@ -48,35 +48,11 @@
 						<p class="w3-center"><img src="" class="w3-circle"
 								style="height:106px;width:106px" alt="Avatar"></p>
 						<hr>
-						<p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
 						<p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
 						<p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
 					</div>
 				</div>
 				<br>
-
-				<!-- Accordion -->
-				<div class="w3-card w3-round">
-					<div class="w3-white">
-						<button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
-								class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Groups</button>
-						<div id="Demo1" class="w3-hide w3-container">
-							<p>Some text..</p>
-						</div>
-						<button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
-								class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
-						<div id="Demo2" class="w3-hide w3-container">
-							<p>Some other text..</p>
-						</div>
-						<button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
-								class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
-						<div id="Demo3" class="w3-hide w3-container">
-							<div class="w3-row-padding">
-								<br>
-							</div>
-						</div>
-					</div>
-				</div>
 
 				<!-- End Left Column -->
 			</div>
@@ -89,7 +65,7 @@
 						<div class="w3-card w3-round w3-white">
 							<div class="w3-container w3-padding">
 								<h4>What's on your mind?</h4>
-								<button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Create Post</button>
+								<button type="button" class="w3-button w3-theme-l3"><i class="fa fa-pencil"></i>  Create Post</button>
 							</div>
 						</div>
 					</div>
@@ -101,13 +77,14 @@
 					<hr class="w3-clear">
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
 						labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-						laboris nisi ut aliquip ex ea commodo consequat.</p>
-					<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom comment_button"><i
+            laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <button type="button" class="w3-button w3-theme-l1 w3-margin-bottom comment_button"><i
+              class="fas fa-arrow-circle-down"></i>  Downvote</button>
+            <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom comment_button"><i
 							class="fas fa-arrow-circle-up"></i>  Upvote
 					</button>
-					<button type="button" class="w3-button w3-theme-d2 w3-margin-bottom comment_button"><i
-              class="fas fa-arrow-circle-down"></i>  Downvote</button>
-          <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
+          <button type="button" class="w3-button w3-theme-l3 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
+          <small class="vote_tally">420.69</small>
 				</div>
 
 				<!-- End Middle Column -->
@@ -147,8 +124,15 @@
 			} else {
 				x.className = x.className.replace(" w3-show", "");
 			}
-		}
-	</script>
+    }
+    
+
+    // Adjust footer based on document body height
+function adjFooter() {
+    if (window.innerHeight > $('body').height()) $('footer').attr('style', 'position: fixed; bottom: 0')
+    else $('footer').attr('style', 'position: unset');
+}
+  </script>
 </body>
 
 </html>
