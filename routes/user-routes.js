@@ -29,7 +29,7 @@ module.exports = function (app) {
 					lat: req.body.lat ? req.body.lat : undefined,
 					long: req.body.long ? req.body.long : undefined
 				});
-				req.flash("successMsg", "Successfully created account. Now, please login.")
+				req.flash("successMsg", "Successfully created account. Please login with your new credentials.");
 				res.json({ redirectURL: "/users/login" });
 			} catch (error) {
 				console.log(error);

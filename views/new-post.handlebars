@@ -1,0 +1,34 @@
+	<!-- Navbar -->
+	<div class="w3-top">
+		<div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2"
+				href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+			<a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><img class="tree_image"
+					src="./assets/tree-silhouette-svg-3.png"> All For One</a>
+			<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i
+					class="fa fa-globe"></i></a>
+		</div>
+	</div>
+	</div>
+
+
+	<div class="w3-row-padding">
+		<div class="w3-col m8 center">
+			<div class="w3-card w3-round w3-white">
+				<form action="/api/posts" method="POST" class="w3-container w3-padding">
+					<div class="grid_username">
+						<input class="w3-border w3-padding" type="text" placeholder="Title" name="title">
+					</div>
+					<div class="grid_username">
+						<textarea class="w3-border w3-padding" type="text" id="post" name="body" rows="3"
+							placeholder="" value=""></textarea>
+					</div>
+					<div class="grid_username">
+						<input class="w3-border w3-padding" type="imageurl" id="imageurl" name="url"
+							placeholder="Link" value="" />
+					</div>
+					<button type="submit" class="w3-button w3-theme"><i class="fa fa-pencil"></i> Post</button>
+				</form>
+			</div>
+		</div>
+	</div>
