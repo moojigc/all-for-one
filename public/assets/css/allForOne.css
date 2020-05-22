@@ -1,25 +1,36 @@
-.w3-theme-l5 {color:#000 !important; background-color:rgb(168, 192, 127) !important}
-.w3-theme-l4 {color:#000 !important; background-color:rgb(130, 155, 87) !important}
-.w3-theme-l3 {color:#000 !important; background-color:rgb(180, 202, 143) !important}
-.w3-theme-l2 {color:#000 !important; background-color:rgb(131, 153, 93) !important}
-.w3-theme-l1 {color:#000 !important; background-color:rgb(123, 146, 84) !important}
-.w3-theme-d1 {color:#000 !important; background-color:rgb(165, 187, 126) !important}
-.w3-theme-d2 {color:#000 !important; background-color:rgb(154, 180, 110) !important}
-.w3-theme-d3 {color:#000 !important; background-color:rgb(133, 155, 95) !important}
-.w3-theme-d4 {color:#000 !important; background-color:rgb(99, 119, 63) !important}
-.w3-theme-d5 {color:#000 !important; background-color:#556B2F !important}
+:root {
+    --main-bg-color: #2b580c;
+    --secondary-bg-color: #639a67;
+    --main-bttn-color: #d8ebb5;
+    --secondary-bttn-color: #d9bf77;
+    --main-txt-color: #000000;
+}
 
-.w3-theme-light {color:#000 !important; background-color:#f5f7f8 !important}
+
+
+
+.w3-theme-l5 {color:#000 !important; background-color: var(--main-bttn-color) !important}
+.w3-theme-l4 {color:#000 !important; background-color: var(--main-bttn-color) !important}
+.w3-theme-l3 {color:#000 !important; background-color: var(--secondary-bttn-color)!important}
+.w3-theme-l2 {color:#000 !important; background-color: var(--main-bttn-color) !important}
+.w3-theme-l1 {color:#000 !important; background-color: var(--main-bttn-color) !important}
+.w3-theme-d1 {color:#000 !important; background-color: var(--secondary-bg-color) !important}
+.w3-theme-d2 {color:#000 !important; background-color: var(--main-bg-color) !important}
+.w3-theme-d3 {color:#000 !important; background-color: var(--main-bg-color) !important}
+.w3-theme-d4 {color:#000 !important; background-color: var(--main-bg-color) !important}
+.w3-theme-d5 {color:#000 !important; background-color: var(--main-bg-color) !important}
+
+.w3-theme-light {color:#000 !important; background-color: var(--main-bttn-color) !important}
 .w3-theme-dark {color:#000 !important; background-color:#000000 !important}
 .w3-theme-action {color:#000 !important; background-color:#000000 !important}
 
-.w3-theme {color:#000000 !important; background-color:#556B2F !important}
-.w3-text-theme {columns: #bdb76b !important}
-.w3-border-theme {border-color:#bdb76b !important}
+.w3-theme {color:#000000 !important; background-color: var(--main-bg-color) !important}
+.w3-text-theme {columns: var(--main-bttn-color) !important}
+.w3-border-theme {border-color: var(--main-bttn-color) !important}
 
-.w3-hover-theme:hover {color:#fff !important; background-color:#556B2F !important}
-.w3-hover-text-theme:hover {color:#556B2F !important}
-.w3-hover-border-theme:hover {border-color:#556B2F !important}
+.w3-hover-theme:hover {color:#fff !important; background-color: var(--main-bttn-color) !important}
+.w3-hover-text-theme:hover {color: var(--main-bttn-color) !important}
+.w3-hover-border-theme:hover {border-color: var(--main-bttn-color) !important}
 
 .large_tree {
     width: relative;
@@ -82,21 +93,4 @@
     .grid {
         grid-template-columns: repeat(auto-fill, 100%);
     }
-}
-
-
-:root {
-    --main-bg-color: #556B2F;
-    --secondary-bg-color: #BDB76B;
-    --main-bttn-color: #808000;
-    --secondary-bttn-color: #6B8E23;
-    --main-txt-color: #000000;
-}
-
-#text {
-    text-anchor: var(--main-text-color);
-}
-
-#div1 {
-    background-color: var(--main-bg-color);
 }
