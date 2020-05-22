@@ -26,7 +26,7 @@
     height: 20%;
     margin: 0;
     position: absolute;
-    top: 30%;
+    top: 26%;
     left: 50%;
     transform: translate(-50%, -50%);
 
@@ -64,9 +64,19 @@
     transform: translate(-50%, -50%);
   }
 
-  textarea {
+.textarea {
     resize: none;
   }
+
+.login_title {
+    text-align: center;
+}
+
+.vote_tally {
+    float: right;
+    text-align: center;
+    padding: 10px;
+}
 
 @media screen and (max-width: 780px) {
     .grid {

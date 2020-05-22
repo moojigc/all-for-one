@@ -101,13 +101,14 @@
 					<hr class="w3-clear">
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
 						labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-						laboris nisi ut aliquip ex ea commodo consequat.</p>
-					<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom comment_button"><i
+            laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom comment_button"><i
+              class="fas fa-arrow-circle-down"></i>  Downvote</button>
+            <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom comment_button"><i
 							class="fas fa-arrow-circle-up"></i>  Upvote
 					</button>
-					<button type="button" class="w3-button w3-theme-d2 w3-margin-bottom comment_button"><i
-              class="fas fa-arrow-circle-down"></i>  Downvote</button>
           <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button>
+          <small class="vote_tally">420.69</small>
 				</div>
 
 				<!-- End Middle Column -->
@@ -147,8 +148,15 @@
 			} else {
 				x.className = x.className.replace(" w3-show", "");
 			}
-		}
-	</script>
+    }
+    
+
+    // Adjust footer based on document body height
+function adjFooter() {
+    if (window.innerHeight > $('body').height()) $('footer').attr('style', 'position: fixed; bottom: 0')
+    else $('footer').attr('style', 'position: unset');
+}
+  </script>
 </body>
 
 </html>
