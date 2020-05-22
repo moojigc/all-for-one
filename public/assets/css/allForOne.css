@@ -52,9 +52,9 @@
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 100%);
+    grid-template-columns: 100%;
 }
-.grid .input-control {
+.grid .input-control, .grid input, .grid textarea {
     margin: 10px;
 }
 .grid .input-row input {
