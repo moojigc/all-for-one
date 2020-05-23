@@ -13,15 +13,19 @@ async function sendVote(id, action) {
 async function voteHandler(event, vote) {
 	let id = $(event.target).data("id");
 	let res = await sendVote(id, vote);
-	let $score = $(event.target).parent().children(".score");
-	let newScore = parseInt(res.upvotes) - parseInt(res.downvotes);
-	console.log(res);
-	if (res.voteValues === "none") {
-		$(event.target).removeAttr("style");
-		$score.text(newScore);
+	if (res.redirectURL) {
+		window.location.assign(res.redirectURL);
 	} else {
-		$(event.target).attr("style", "background-color: orange !important;");
-		$score.text(newScore);
+		let $score = $(event.target).parent().children(".score");
+		let newScore = res.score;
+		console.log(res);
+		$(event.target).parent().children('button').get().forEach(b => $(b).removeAttr("style"));
+		if (res.voteValues === "none") {
+			$score.text(newScore);
+		} else {
+			$(event.target).attr("style", "background-color: orange !important;");
+			$score.text(newScore);
+		}
 	}
 }
 

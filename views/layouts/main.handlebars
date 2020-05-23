@@ -7,17 +7,52 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
     <link rel="stylesheet" href="/assets/css/allForOne.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/d50f4ca58c.js" crossorigin="anonymous"></script>
+    <script src="/assets/js/location.js"></script>
     <script defer src="/assets/js/register.js" type="text/javascript"></script>
     <script defer src="/assets/js/votes.js" type="text/javascript"></script>
+    <script defer src="/assets/js/newpost.js"></script>
+    <link rel="icon" href="/assets/tree-silhouette.ico" type="image/x-icon" />
     <title>All For One</title>
 </head>
 
-<body>
+<body class="w3-theme-l5">
+    <!-- Navbar -->
+    <div class="w3-top">
+        <div class="w3-bar w3-theme-d1 w3-left-align w3-large">
+            <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2"
+                href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+            <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><img class="tree_image"
+                    src="/assets/tree-silhouette-svg-3.png"> All For One</a>
+            <a href="/my-profile" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"
+                title="Account Settings"><i class="fa fa-user"></i></a>
+            <div class="w3-dropdown-hover w3-hide-small">
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar on small screens -->
+    <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
+        <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
+    </div>
+
+    <img class="large_tree" src="/assets/tree-silhouette-svg-3.png" alt="Image Not Found">
+
     {{{body}}}
+
+    <!-- Footer -->
+    <footer class="w3-container w3-theme-d5">
+        <p>Created by Moojig Battsogt, Gurprem Bhullar, and Sebastian Williams</p>
+    </footer>
+
 </body>
+
 
 <script>
     // Accordion
@@ -42,6 +77,12 @@
             x.className = x.className.replace(" w3-show", "");
         }
     }
+    // Adjust footer based on document body height
+    function adjFooter() {
+        if (window.innerHeight > $('body').height()) $('footer').attr('style', 'position: fixed; bottom: 0; width: 100%;')
+        else $('footer').attr('style', 'position: unset');
+    }
+    adjFooter();
 </script>
 
 </html>

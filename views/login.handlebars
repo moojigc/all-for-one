@@ -1,7 +1,10 @@
 <div class="w3-row-padding">
-    <div class="w3-col m8 center">
+    <div class="w3-col m5 center">
         <div class="w3-card w3-round w3-white">
-            <form class="w3-container w3-padding" action="/users/login" method="POST">
+            <form action="/users/login" method="POST" class="w3-container w3-padding">
+                <div class="login_title">
+                    <h1>All for One Login</h1>
+                </div>
                 <div class="grid_username">
                     <input class="w3-border w3-padding" type="text" id="username" name="username" placeholder="Username"
                         value="">
@@ -10,14 +13,18 @@
                     <input class="w3-border w3-padding" type="password" id="password" name="password"
                         placeholder="Password" value="" />
                 </div>
+                <button type="submit" class="w3-button w3-theme">Login</button>
                 {{#if successMsg}}
-                <p>{{successMsg}}</p>
+                <b>{{successMsg}}</b>
+                {{/if}}
+                {{#if error}}
+                <b>{{error}}</b>
                 {{/if}}
                 {{#if errorMsg}}
-                <p>{{errorMsg}}</p>
+                <b>{{errorMsg}}</b>
                 {{/if}}
-                <button type="submit" class="w3-button w3-theme">Login</button>
-                <a type="link" href="/users/register" class="w3-button w3-theme">Need to register? Create Account</a>
+                <a href="/users/register" type="button" class="w3-button w3-theme-d1 comment_button">Create Account</a>
+                <b class="vote_tally">New to All for One?</b>
             </form>
         </div>
     </div>

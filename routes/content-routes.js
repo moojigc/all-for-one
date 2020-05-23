@@ -1,33 +1,65 @@
 /* eslint-disable indent */
 // const isAuthenticated = require("../config/middleware/isAuthenticated");
 // const moment = require("moment");
-const serverError = (res) => res.json({ message: "Internal server error.", status: 500 });
+const serverError = (res) => res.status(500).json({ message: "Internal server error.", status: 500 });
+const axios = require("axios");
+const { reverseLocation, forwardLocation } = require("../config/middleware/openGeo");
 module.exports = function (app) {
-	const { Post, Vote } = require("../models");
+	const { Post, Vote, User } = require("../models");
 	// POST route for uploading a post (POST a post)
-	app.post("/api/posts", async (req, res) => {
-		let response = await Post.create({
-			title: req.body.title,
-			body: req.body.body,
-			url: req.body.url,
-			upvotes: req.body.upvotes,
-			downvotes: req.body.downvotes,
-			UserId: req.body.UserId,
-			lat: req.body.lat,
-			long: req.body.long,
-			UserId: req.user
-		});
-		res.json(response).end();
-	});
-	// GET route for posts by id
-	app.get("/api/post/:id", async (req, res) => {
-		let response = await Post.findAll({
-			where: {
-				id: parseInt(req.params.id)
+	try {
+		app.post("/api/posts", async (req, res) => {
+			// Just some crazy regex I found online. Seriously how do people come up with this stuff
+			let urlRegex = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+			// Check if URL is a URL (only if URL is not undefined)
+			if (!!req.body.url && !req.body.url.match(urlRegex)) {
+				req.flash("errorMsg", "URL must be a valid URL!");
+				return res.json({ redirectURL: "/new-post" }).end();
 			}
+			let user = (
+				await User.findOne({
+					where: {
+						id: req.user
+					}
+				})
+			).dataValues;
+			async function getLocationData() {
+				if (!req.body.lat || !req.body.long) {
+					return await forwardLocation({
+						city: user.city,
+						state: user.state,
+						country: user.country
+					});
+				} else {
+					return await reverseLocation(req.body.lat, req.body.long);
+				}
+			}
+			let location = (await getLocationData()).data.results[0];
+			// API doesn't always return a city or town
+			let city = location.components.city ? location.components.city : location.components.town;
+			let state = location.components.state;
+			let country = location.components.country_code;
+			let { lat, lng } = location.geometry;
+			let response = await Post.create({
+				title: req.body.title,
+				body: req.body.body,
+				url: !!req.body.url ? req.body.url : undefined,
+				deleteHash: req.body.deleteHash,
+				UserId: req.user,
+				lat: lat,
+				long: lng,
+				city: city,
+				state: state,
+				country: country
+			});
+			console.log(response.dataValues);
+			res.json({ redirectURL: `/post/${response.dataValues.id}` }).end();
 		});
-		res.json(response).end();
-	});
+	} catch (error) {
+		console.log(error);
+		req.flash("errorMsg", "Internal server error. Please try again later.");
+		res.json({ redirectURL: "/new-post" });
+	}
 	// GET route for all posts
 	app.get("/api/posts", async (req, res) => {
 		let response = await Post.findAll({});
@@ -91,7 +123,7 @@ module.exports = function (app) {
 					switch (req.params.action) {
 						case "upvote":
 							if (lastVoteWas === "none") {
-							// Case that this is the user's first vote on this post or comment, or that the user undid a vote previously
+								// Case that this is the user's first vote on this post or comment, or that the user undid a vote previously
 								postValues = { upvotes: parseInt(upvotes) + 1 };
 								voteValues = "upvote";
 							} else if (lastVoteWas === "upvote") {
@@ -135,13 +167,14 @@ module.exports = function (app) {
 					console.log(voteValues);
 					let postResponse = await handlePostUpdate(postValues);
 					let voteResponse = await handleVoteUpdate(voteValues);
-					let newPostValues = await Post.findOne({ where: { id: req.params.id }});
+					let newPostValues = await Post.findOne({
+						where: { id: req.params.id }
+					});
 					return {
 						postResponse,
 						voteResponse,
 						voteValues,
-						upvotes: newPostValues.dataValues.upvotes,
-						downvotes: newPostValues.dataValues.downvotes
+						score: parseInt(newPostValues.dataValues.upvotes) - parseInt(newPostValues.dataValues.downvotes)
 					};
 				}
 				if (req.params.action !== "body") {
@@ -168,11 +201,25 @@ module.exports = function (app) {
 		}
 	});
 	app.delete("/api/post/:id", async (req, res) => {
-		let response = await Post.destroy({
-			where: {
-				id: parseInt(req.params.id)
+		let postDeleteHash = (
+			await Post.findOne({
+				where: {
+					id: req.params.id
+				}
+			})
+		).dataValues.deleteHash;
+		let imgurDeleteRes = await axios.delete("https://api.imgur.com/3/image/", {
+			headers: {
+				Authorization: "Client-ID e932edc570d9a1f"
 			}
 		});
-		res.json(response).end();
+		if (imgurDeleteRes.status === 200) {
+			let response = await Post.destroy({
+				where: {
+					id: req.params.id
+				}
+			});
+			res.json(response).end();
+		}
 	});
 };

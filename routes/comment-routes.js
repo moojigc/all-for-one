@@ -2,14 +2,22 @@ module.exports = function (app) {
 	const { Comment, Subcomment } = require('../models');
 	// Route for POSTing a comment to a specific Post
 	app.post("/api/post/:PostId/comments", async (req, res) => {
-		let response = await Comment.create({
-			body: req.body.body,
-			upvotes: req.body.upvotes,
-			downvotes: req.body.downvotes,
-			UserId: req.body.UserId,
-			PostId: req.params.PostId
-		});
-		res.json(response).end();
+		if (!req.user) {
+			req.flash("errorMsg", "You must be logged in to comment!");
+			req.redirect(`/post/${req.params.PostId}`);
+		}
+		try {
+			await Comment.create({
+				body: req.body.body,
+				UserId: req.body.UserId,
+				PostId: req.params.PostId
+			});
+			res.redirect(`/post/${req.params.PostId}`);
+		} catch (error) {
+			console.log(error);
+			req.flash("errorMsg", "Internal error. Please try again later.");
+			req.redirect(`/post/${req.params.PostId}`);
+		}
 	});
 	// Route for GETting comments for a specific post
 	app.get("/api/post/:PostId/comments", async (req, res) => {

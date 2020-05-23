@@ -52,6 +52,18 @@ module.exports = function (sequelize, DataTypes) {
 					isDecimal: true
 				}
 			},
+			city: {
+				type: DataTypes.STRING,
+				allowNull: true
+			},
+			state: {
+				type: DataTypes.STRING,
+				allowNull: true
+			},
+			country: {
+				type: DataTypes.STRING,
+				allowNull: true
+			},
 			// Allow for user pictures
 			avatar: {
 				type: DataTypes.TEXT,
