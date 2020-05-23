@@ -8,20 +8,21 @@
             <div class="w3-card w3-round w3-white">
                 <div class="w3-container">
                     <h4 class="w3-center">{{user.username}}</h4>
-                    <p class="w3-center"><img src="{{user.avatar}}" class="w3-circle" style="height:106px;width:106px" alt="Avatar">
+                    <p class="w3-center"><img src="{{user.avatar}}" class="w3-circle" style="height:106px;width:106px"
+                            alt="Avatar">
                     </p>
                     <hr>
-                    <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> 
-                    {{#if user.city}}
-                        {{user.city}}, 
-                    {{/if}}
-                    {{#if user.state}}
-                        {{user.state}}, 
-                    {{/if}}
-                    {{#if user.country}}
+                    <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>
+                        {{#if user.city}}
+                        {{user.city}},
+                        {{/if}}
+                        {{#if user.state}}
+                        {{user.state}},
+                        {{/if}}
+                        {{#if user.country}}
                         {{user.country}}
-                    {{/if}}
-                        </p>
+                        {{/if}}
+                    </p>
                     {{#if user.birthdate}}
                     <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>{{user.birthdate}}</p>
                     {{/if}}
@@ -31,11 +32,13 @@
             <div class="w3-card w3-round">
                 <div class="w3-theme">
                     {{#if user.guest}}
-                    <a href="/users/login" style="background-color: whitesmoke !important;" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
+                    <a href="/users/login" style="background-color: whitesmoke !important;"
+                        class="w3-button w3-block w3-theme-l1 w3-left-align"><i
                             class="fa fa-users fa-fw w3-margin-right"></i> Login</a>
                     {{/if}}
                     {{#if user.loggedIn}}
-                    <a href="/users/logout" style="background-color: whitesmoke !important;" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
+                    <a href="/users/logout" style="background-color: whitesmoke !important;"
+                        class="w3-button w3-block w3-theme-l1 w3-left-align"><i
                             class="fa fa-users fa-fw w3-margin-right"></i> Logout</a>
                     {{/if}}
                 </div>
@@ -52,7 +55,8 @@
                     <div class="w3-card w3-round w3-white">
                         <div class="w3-container w3-padding">
                             <h4>Share your memes, news, and images here.</h4>
-                            <a href="/new-post" type="button" class="w3-button w3-theme-l3"><i class="fa fa-pencil"></i> Create
+                            <a href="/new-post" type="button" class="w3-button w3-theme-l3"><i class="fa fa-pencil"></i>
+                                Create
                                 Post</a>
                         </div>
                     </div>
@@ -64,29 +68,43 @@
                 <h4>{{username}}</h4><br>
                 <h2><a href="{{url}}">{{title}}</a></h2>
                 <hr class="w3-clear">
+                {{#if isImage}}
+                <div class="w3-row">
+                    <div class="w3-col">
+                        <img src="{{url}}" alt="{{body}}">
+                    </div>
+                </div>
+                {{/if}}
                 <p>{{body}}</p>
                 {{#if noVote}}
-                <button data-id="{{id}}" type="button" class="downvote w3-button w3-theme-l1 w3-margin-bottom comment_button"><i
-                        data-id="{{id}}" class="fas fa-arrow-circle-down"></i>  Downvote</button>
-                <button data-id="{{id}}" type="button" class="upvote w3-button w3-theme-d1 w3-margin-bottom comment_button"><i
-                        data-id="{{id}}" class="fas fa-arrow-circle-up"></i>  Upvote
+                <button data-id="{{id}}" type="button"
+                    class="downvote w3-button w3-theme-l1 w3-margin-bottom comment_button"><i data-id="{{id}}"
+                        class="fas fa-arrow-circle-down"></i>  Downvote</button>
+                <button data-id="{{id}}" type="button"
+                    class="upvote w3-button w3-theme-d1 w3-margin-bottom comment_button"><i data-id="{{id}}"
+                        class="fas fa-arrow-circle-up"></i>  Upvote
                 </button>
                 {{/if}}
                 {{#if upvote}}
-                <button data-id="{{id}}" type="button" class="downvote w3-button w3-theme-l1 w3-margin-bottom comment_button"><i
-                        data-id="{{id}}" class="fas fa-arrow-circle-down"></i>  Downvote</button>
-                <button data-id="{{id}}" style="background-color: orange !important;" type="button" class="upvote w3-button w3-theme-d1 w3-margin-bottom comment_button"><i
-                        data-id="{{id}}" class="fas fa-arrow-circle-up"></i>  Upvote
+                <button data-id="{{id}}" type="button"
+                    class="downvote w3-button w3-theme-l1 w3-margin-bottom comment_button"><i data-id="{{id}}"
+                        class="fas fa-arrow-circle-down"></i>  Downvote</button>
+                <button data-id="{{id}}" style="background-color: orange !important;" type="button"
+                    class="upvote w3-button w3-theme-d1 w3-margin-bottom comment_button"><i data-id="{{id}}"
+                        class="fas fa-arrow-circle-up"></i>  Upvote
                 </button>
                 {{/if}}
                 {{#if downvote}}
-                <button data-id="{{id}}" style="background-color: orange !important;" type="button" class="downvote w3-button w3-theme-l1 w3-margin-bottom comment_button"><i
-                        data-id="{{id}}" class="fas fa-arrow-circle-down"></i>  Downvote</button>
-                <button data-id="{{id}}" type="button" class="upvote w3-button w3-theme-d1 w3-margin-bottom comment_button"><i
-                        data-id="{{id}}" class="fas fa-arrow-circle-up"></i>  Upvote
+                <button data-id="{{id}}" style="background-color: orange !important;" type="button"
+                    class="downvote w3-button w3-theme-l1 w3-margin-bottom comment_button"><i data-id="{{id}}"
+                        class="fas fa-arrow-circle-down"></i>  Downvote</button>
+                <button data-id="{{id}}" type="button"
+                    class="upvote w3-button w3-theme-d1 w3-margin-bottom comment_button"><i data-id="{{id}}"
+                        class="fas fa-arrow-circle-up"></i>  Upvote
                 </button>
                 {{/if}}
-                <a type="button" href="/post/{{id}}" class="w3-button w3-theme-l3 w3-margin-bottom"><i class="fa fa-comment"></i>
+                <a type="button" href="/post/{{id}}" class="w3-button w3-theme-l3 w3-margin-bottom"><i
+                        class="fa fa-comment"></i>
                      {{commentCount }} Comment(s)</a>
                 <small class="score vote_tally">{{score}}</small>
             </div>

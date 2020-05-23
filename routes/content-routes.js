@@ -201,25 +201,52 @@ module.exports = function (app) {
 		}
 	});
 	app.delete("/api/post/:id", async (req, res) => {
-		let postDeleteHash = (
-			await Post.findOne({
-				where: {
-					id: req.params.id
+		try {
+			let postDeleteHash = (
+				await Post.findOne({
+					where: {
+						id: req.params.id
+					}
+				})
+			).dataValues.deleteHash;
+			if (postDeleteHash) {
+				let imgurDeleteRes = await axios.delete(`https://api.imgur.com/3/image/${postDeleteHash}`, {
+					headers: {
+						"Authorization": "Client-ID e932edc570d9a1f"
+					}
+				});
+				console.log(imgurDeleteRes);
+				if (imgurDeleteRes.status === 200) {
+					let response = await Post.destroy({
+						where: {
+							id: req.params.id
+						}
+					});
+					if (response === 1) {
+						req.flash("successMsg", "Post successfully deleted.");
+						res.json({ redirectURL: "/new-post" }).end();
+					} else {
+						req.flash("errorMsg", "Post could not be deleted. Please try again.");
+						res.json({ redirectURL: "/new-post" }).end();
+					}
 				}
-			})
-		).dataValues.deleteHash;
-		let imgurDeleteRes = await axios.delete("https://api.imgur.com/3/image/", {
-			headers: {
-				Authorization: "Client-ID e932edc570d9a1f"
+			} else {
+				let response = await Post.destroy({
+					where: {
+						id: req.params.id
+					}
+				});
+				if (response === 1) {
+					req.flash("successMsg", "Post successfully deleted.");
+					res.json({ redirectURL: "/new-post" }).end();
+				} else {
+					req.flash("errorMsg", "Post could not be deleted. Please try again.");
+					res.json({ redirectURL: "/new-post" }).end();
+				}
 			}
-		});
-		if (imgurDeleteRes.status === 200) {
-			let response = await Post.destroy({
-				where: {
-					id: req.params.id
-				}
-			});
-			res.json(response).end();
+		} catch (error) {
+			console.log(error);
+			res.json({ redirectURL: "/server-error" });
 		}
 	});
 };
