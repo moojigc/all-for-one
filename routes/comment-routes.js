@@ -4,7 +4,7 @@ module.exports = function (app) {
 	app.post("/api/post/:PostId/comments", async (req, res) => {
 		if (!req.user) {
 			req.flash("errorMsg", "You must be logged in to comment!");
-			req.redirect(`/post/${req.params.PostId}`);
+			res.redirect(`/users/login`);
 		}
 		try {
 			await Comment.create({
