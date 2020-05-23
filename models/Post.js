@@ -53,6 +53,22 @@ module.exports = function (sequelize, DataTypes) {
 				validate: {
 					isDecimal: true
 				}
+			},
+			city: {
+				type: DataTypes.STRING,
+				allowNull: true
+			},
+			state: {
+				type: DataTypes.STRING,
+				allowNull: true
+			},
+			country: {
+				type: DataTypes.STRING,
+				allowNull: true
+			},
+			deleteHash: {
+				type: DataTypes.STRING,
+				allowNull: true
 			}
 		}
 	);

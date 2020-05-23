@@ -1,0 +1,43 @@
+{{#with user}}
+<div class="w3-row-padding">
+    <div class="w3-col m8 center">
+        <div class="w3-card w3-round w3-white">
+            <div class="w3-container w3-padding">
+                <h1>
+                    <img src="{{avatar}}" class="w3-circle" style="height:106px;width:106px" alt="avatar"> {{username}}
+                </h1>
+                <h2>{{firstName}} {{lastName}}</h2>
+                {{#if city}}
+                <h3>From {{city}}, {{state}}</h3>
+                {{/if}}
+                <h3>{{country}}</h3>
+                <form>
+                    <div class="grid">
+                        <label for="password">Reset Password</label>
+                        <input class="w3-border w3-padding" type="password" id="currentPassword" name="password"
+                            placeholder="Current Password" value=""/>
+                    </div>
+                    <div class="grid">
+                        <label for="password2">New Password</label>
+                        <input class="w3-border w3-padding" type="password" id="newPassword" name="password2"
+                            placeholder="New Password"
+                            value=""/>
+                    </div>
+                    <div class="grid">
+                        <input class="w3-border w3-padding" type="password" id="newPassword2" name="password2"
+                            placeholder="Confirm Password"
+                            value=""/>
+                    </div>
+                    <div class="grid">
+                        <label for="">Change Avatar</label>
+                        <input class="w3-border w3-padding" type="text" id="avatar" name="avatar"
+                            placeholder="Enter avatar URL"
+                            value=""/>
+                    </div>
+                    <button type="button" id="update-profile" class="w3-button w3-theme">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{/with}}

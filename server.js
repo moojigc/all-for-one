@@ -36,6 +36,7 @@ app.use(express.static("public"))
 	.use(function (req, res, next) {
 		res.locals.successMsg = req.flash("successMsg");
 		res.locals.errorMsg = req.flash("errorMsg");
+		res.locals.error = req.flash("error");
 		next();
 	});
 // Requiring our routes
