@@ -23,6 +23,9 @@ module.exports = function (app) {
 		if (req.body.password !== req.body.password2) {
 			req.flash("errorMsg", "Passwords must match!");
 			res.json({ redirectURL: "/users/register" }).end();
+		} else if (req.body.password.split('').length < 8) {
+			req.flash("errorMsg", "Password too short! Must be at least 8 characters.");
+			res.json({ redirectURL: "/users/register" }).end();
 		} else if (!req.body.username) {
 			req.flash("errorMsg", "Username is required!");
 			res.json({ redirectURL: "/users/register" }).end();

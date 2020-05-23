@@ -70,4 +70,22 @@ module.exports = function (app) {
 		});
 		res.json(response).end();
 	});
+	app.delete("/api/post/:PostId/comment/:id", async (req, res) => {
+		if (!req.user) {
+			req.flash("errorMsg", "Must be logged in to do that!");
+			return res.json({ redirectURL: "/users/login" });
+		}
+		try {
+			let response = await Comment.destroy({
+				where: {
+					id: req.params.id
+				}
+			});
+			console.log(response);
+			req.flash("successMsg", "Comment deleted.");
+			res.json({ redirectURL: `/post/${req.params.PostId}`});
+		} catch (error) {
+			console.log(error);
+		}
+	});
 };

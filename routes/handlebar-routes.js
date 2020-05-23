@@ -18,15 +18,23 @@ function postMap(post, req) {
 	} else {
 		url = post.url;
 	}
+	// Check for image urls
+	post.isImage = () => {
+		let regCheck = /\.(gif|jpe?g|tiff|png|webp|bmp)$/i.test(post.url);
+		if (regCheck) return true;
+		else return false;
+	};
 	console.log(lastVote);
 	return {
 		id: post.id,
 		title: post.title,
 		body: post.body,
 		username: post.User.dataValues.username,
+		userId: post.User.dataValues.id,
 		avatar: post.User.dataValues.avatar,
 		createdAt: moment(post.createdAt).format("MMMM Do, hh:mm a"),
 		url: url,
+		isImage: post.isImage,
 		comments: post.Comments,
 		commentCount: post.Comments.length,
 		lat: post.lat,
@@ -89,7 +97,7 @@ module.exports = function (app) {
 							model: User
 						},
 						{
-							model: Comment,
+							model: Comment
 						},
 						{
 							model: Vote,
@@ -115,6 +123,7 @@ module.exports = function (app) {
 			serverError(res);
 		}
 	});
+	// Displays individual post
 	app.get("/post/:id", async (req, res) => {
 		try {
 			// Displays a single post with its comments
@@ -161,6 +170,23 @@ module.exports = function (app) {
 					// Map to easier to use object
 					return postMap(post, req);
 				});
+				// Allow user to delete their own posts
+				if (req.user === post.userId) {
+					post.belongsToCurrentUser = true;
+				}
+				post.comments = post.comments.map((c) => {
+					if (req.user === c.dataValues.UserId) {
+						return {
+							dataValues: c.dataValues,
+							belongsToCurrentUser: true
+						};
+					} else {
+						return {
+							dataValues: c.dataValues
+						};
+					}
+				});
+				console.log(post.comments);
 				res.render("single-post", {
 					post: post,
 					currentUserId: req.user
@@ -173,9 +199,11 @@ module.exports = function (app) {
 					include: [
 						{
 							model: Comment,
-							include: [{
-								model: User
-							}],
+							include: [
+								{
+									model: User
+								}
+							],
 							where: { PostId: req.params.id },
 							required: false
 						},
@@ -183,7 +211,7 @@ module.exports = function (app) {
 							model: User
 						}
 					]
-				}).map(post => {
+				}).map((post) => {
 					return postMap(post, req);
 				});
 				res.render("single-post", {
