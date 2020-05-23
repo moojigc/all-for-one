@@ -18,12 +18,6 @@ function postMap(post, req) {
 	} else {
 		url = post.url;
 	}
-	// Check for image urls
-	post.isImage = () => {
-		let regCheck = /\.(gif|jpe?g|tiff|png|webp|bmp)$/i.test(post.url);
-		if (regCheck) return true;
-		else return false;
-	};
 	console.log(lastVote);
 	return {
 		id: post.id,
