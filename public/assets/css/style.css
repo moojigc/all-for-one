@@ -1,4 +1,6 @@
 .register-div {
-    margin-top: 1rem;
-    /* margin-bottom: 15rem; */
+	margin-top: 5rem;
+	margin-bottom: 5rem;
+	position: relative;
+	z-index: 1;
 }

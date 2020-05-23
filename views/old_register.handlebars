@@ -1,6 +1,6 @@
-<div class="w3-container w3-content register-div">
-    <div class="m12 center"></div>
-        <div class="w3-card w3-round w3-white w3-padding">
+<div class="register-div w3-col m8 center">
+    <div class="w3-card w3-round w3-white">
+        <div class="w3-container w3-padding">
             <h1>
                 <i class="fas fa-user-plus"></i> Register
             </h1>
@@ -28,11 +28,6 @@
                         placeholder="Confirm Password" value="" />
                 </div>
                 <div class="grid">
-                    <label for="">User Avatar</label>
-                    <input class="w3-border w3-padding input-control" type="text" id="avatar" name="avatar"
-                        placeholder="Enter avatar URL" value="" />
-                </div>
-                <div class="grid">
                     <label for="">Birthdate</label>
                     <div class="input-control input-row">
                         <input class="w3-border w3-padding" type="text" id="month" name="birthdate" placeholder="MM"
@@ -42,6 +37,11 @@
                         <input class="w3-border w3-padding" type="text" id="year" name="birthdate" placeholder="YYYY"
                             value="" />
                     </div>
+                </div>
+                <div class="grid">
+                    <label for="">User Avatar</label>
+                    <input class="w3-border w3-padding input-control" type="text" id="avatar" name="avatar"
+                        placeholder="Enter avatar URL" value="" />
                 </div>
                 <div class="grid location" style="display: none;">
                     <label for="">Location? (Country required)</label>
@@ -60,7 +60,6 @@
                 {{/if}}
             </form>
             <p>Have An Account? <a href="/users/login">Login</a></p>
-
         </div>
     </div>
 </div>
