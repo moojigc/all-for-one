@@ -93,4 +93,8 @@
     .grid {
         grid-template-columns: repeat(auto-fill, 100%);
     }
+    .register-div {
+        margin-top: 5rem;
+        margin-bottom: 5rem;
+    }
 }

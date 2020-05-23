@@ -76,6 +76,7 @@ module.exports = function (app) {
 				user = (await User.findOne({ where: { id: req.user } })).dataValues;
 				// Don't want the password
 				delete user.password;
+				// Location API is inconsistent in its naming for the US
 				posts = await Post.findAll({
 					limit: 25,
 					order: [["upvotes", "DESC"]],
