@@ -1,16 +1,21 @@
 /* eslint-disable indent */
 // const isAuthenticated = require("../config/middleware/isAuthenticated");
 // const moment = require("moment");
-const serverError = (res) => res.status(500).json({ message: "Internal server error.", status: 500 });
+const serverError = (res) =>
+	res.status(500).json({ message: "Internal server error.", status: 500 });
 const axios = require("axios");
-const { reverseLocation, forwardLocation } = require("../config/middleware/openGeo");
+const {
+	reverseLocation,
+	forwardLocation,
+} = require("../config/middleware/openGeo");
 module.exports = function (app) {
 	const { Post, Vote, User } = require("../models");
 	// POST route for uploading a post (POST a post)
 	try {
 		app.post("/api/posts", async (req, res) => {
 			// Just some crazy regex I found online. Seriously how do people come up with this stuff
-			let urlRegex = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+			let urlRegex =
+				/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
 			// Check if URL is a URL (only if URL is not undefined)
 			if (!!req.body.url && !req.body.url.match(urlRegex)) {
 				req.flash("errorMsg", "URL must be a valid URL!");
@@ -19,8 +24,8 @@ module.exports = function (app) {
 			let user = (
 				await User.findOne({
 					where: {
-						id: req.user
-					}
+						id: req.user,
+					},
 				})
 			).dataValues;
 			async function getLocationData() {
@@ -28,31 +33,37 @@ module.exports = function (app) {
 					return await forwardLocation({
 						city: user.city,
 						state: user.state,
-						country: user.country
+						country: user.country,
 					});
 				} else {
 					return await reverseLocation(req.body.lat, req.body.long);
 				}
 			}
-			let location = (await getLocationData()).data.results[0];
+
+			let location;
+			try {
+				location = (await getLocationData()).data.results[0];
+			} catch (e) {}
 			// API doesn't always return a city or town
-			let city = location.components.city ? location.components.city : location.components.town;
-			let state = location.components.state;
-			let country = location.components.country_code;
-			let { lat, lng } = location.geometry;
+			const locationData = location
+				? {
+						city:
+							location?.components.city ||
+							location.components.town,
+						state: location.components.state,
+						country: location.components.country_code,
+						lat: location.geometry.lat,
+						long: location.geometry.lng,
+				  }
+				: {};
 			let response = await Post.create({
 				title: req.body.title,
 				body: req.body.body,
 				url: !!req.body.url ? req.body.url : undefined,
 				deleteHash: req.body.deleteHash,
 				UserId: req.user,
-				lat: lat,
-				long: lng,
-				city: city,
-				state: state,
-				country: country
+				...locationData,
 			});
-			console.log(response.dataValues);
 			res.json({ redirectURL: `/post/${response.dataValues.id}` }).end();
 		});
 	} catch (error) {
@@ -78,17 +89,17 @@ module.exports = function (app) {
 				let post = (
 					await Post.findOne({
 						where: {
-							id: req.params.id
+							id: req.params.id,
 						},
 						include: [
 							{
 								model: Vote,
 								where: {
-									UserId: req.user
+									UserId: req.user,
 								},
-								required: false
-							}
-						]
+								required: false,
+							},
+						],
 					})
 				).dataValues;
 				console.log(post.Votes);
@@ -104,8 +115,8 @@ module.exports = function (app) {
 					async function handlePostUpdate(values) {
 						return await Post.update(values, {
 							where: {
-								id: req.params.id
-							}
+								id: req.params.id,
+							},
 						});
 					}
 					async function handleVoteUpdate(values) {
@@ -113,11 +124,13 @@ module.exports = function (app) {
 							lastVoteWas: values,
 							id: `p${req.params.id}u${req.user}`,
 							PostId: req.params.id,
-							UserId: req.user
+							UserId: req.user,
 						});
 					}
 					console.log(`${upvotes} upvotes. ${downvotes} downvotes`);
-					let lastVoteWas = post.Votes[0] ? post.Votes[0].dataValues.lastVoteWas : "none";
+					let lastVoteWas = post.Votes[0]
+						? post.Votes[0].dataValues.lastVoteWas
+						: "none";
 					console.log(lastVoteWas);
 					// Switch based on whether PUT request is for an upvote or downvote
 					switch (req.params.action) {
@@ -129,14 +142,14 @@ module.exports = function (app) {
 							} else if (lastVoteWas === "upvote") {
 								// Undoing an upvote
 								postValues = {
-									upvotes: parseInt(upvotes) - 1
+									upvotes: parseInt(upvotes) - 1,
 								};
 								voteValues = "none";
 							} else if (lastVoteWas === "downvote") {
 								// Undoing a downvote and doing an upvote
 								postValues = {
 									upvotes: parseInt(upvotes) + 1,
-									downvotes: parseInt(downvotes) - 1
+									downvotes: parseInt(downvotes) - 1,
 								};
 								voteValues = "upvote";
 							}
@@ -145,19 +158,21 @@ module.exports = function (app) {
 							if (lastVoteWas === "none") {
 								// First vote, or undid a vote
 								postValues = {
-									downvotes: parseInt(downvotes) + 1
+									downvotes: parseInt(downvotes) + 1,
 								};
 								voteValues = "downvote";
 							} else if (lastVoteWas === "upvote") {
 								// Undoing an upvote and doing a downvote
 								postValues = {
 									upvotes: parseInt(upvotes) - 1,
-									downvotes: parseInt(downvotes) + 1
+									downvotes: parseInt(downvotes) + 1,
 								};
 								voteValues = "downvote";
 							} else if (lastVoteWas === "downvote") {
 								// Undoing a downvote
-								postValues = { downvotes: parseInt(downvotes) - 1 };
+								postValues = {
+									downvotes: parseInt(downvotes) - 1,
+								};
 								voteValues = "none";
 							}
 							break;
@@ -168,13 +183,15 @@ module.exports = function (app) {
 					let postResponse = await handlePostUpdate(postValues);
 					let voteResponse = await handleVoteUpdate(voteValues);
 					let newPostValues = await Post.findOne({
-						where: { id: req.params.id }
+						where: { id: req.params.id },
 					});
 					return {
 						postResponse,
 						voteResponse,
 						voteValues,
-						score: parseInt(newPostValues.dataValues.upvotes) - parseInt(newPostValues.dataValues.downvotes)
+						score:
+							parseInt(newPostValues.dataValues.upvotes) -
+							parseInt(newPostValues.dataValues.downvotes),
 					};
 				}
 				if (req.params.action !== "body") {
@@ -184,12 +201,12 @@ module.exports = function (app) {
 					let response = await Post.update(
 						{
 							// Following Reddit's practices, disallowing title/URL updates prevents confusion/deception
-							body: req.body.body
+							body: req.body.body,
 						},
 						{
 							where: {
-								id: req.params.id
-							}
+								id: req.params.id,
+							},
 						}
 					);
 					res.json(response).end();
@@ -205,42 +222,51 @@ module.exports = function (app) {
 			let postDeleteHash = (
 				await Post.findOne({
 					where: {
-						id: req.params.id
-					}
+						id: req.params.id,
+					},
 				})
 			).dataValues.deleteHash;
 			if (postDeleteHash) {
-				let imgurDeleteRes = await axios.delete(`https://api.imgur.com/3/image/${postDeleteHash}`, {
-					headers: {
-						"Authorization": "Client-ID e932edc570d9a1f"
+				let imgurDeleteRes = await axios.delete(
+					`https://api.imgur.com/3/image/${postDeleteHash}`,
+					{
+						headers: {
+							Authorization: "Client-ID e932edc570d9a1f",
+						},
 					}
-				});
+				);
 				console.log(imgurDeleteRes);
 				if (imgurDeleteRes.status === 200) {
 					let response = await Post.destroy({
 						where: {
-							id: req.params.id
-						}
+							id: req.params.id,
+						},
 					});
 					if (response === 1) {
 						req.flash("successMsg", "Post successfully deleted.");
 						res.json({ redirectURL: "/new-post" }).end();
 					} else {
-						req.flash("errorMsg", "Post could not be deleted. Please try again.");
+						req.flash(
+							"errorMsg",
+							"Post could not be deleted. Please try again."
+						);
 						res.json({ redirectURL: "/new-post" }).end();
 					}
 				}
 			} else {
 				let response = await Post.destroy({
 					where: {
-						id: req.params.id
-					}
+						id: req.params.id,
+					},
 				});
 				if (response === 1) {
 					req.flash("successMsg", "Post successfully deleted.");
 					res.json({ redirectURL: "/new-post" }).end();
 				} else {
-					req.flash("errorMsg", "Post could not be deleted. Please try again.");
+					req.flash(
+						"errorMsg",
+						"Post could not be deleted. Please try again."
+					);
 					res.json({ redirectURL: "/new-post" }).end();
 				}
 			}
