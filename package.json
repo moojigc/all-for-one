@@ -17,7 +17,7 @@
     "opencage-api-client": "^0.7.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "sequelize": "^5.21.9"
+    "sequelize": "^6.29.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
